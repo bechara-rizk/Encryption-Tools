@@ -2,7 +2,7 @@
 
 def extendedEuclid(inverse, mod):
     A=(1,0,mod)
-    B=(0,1,inverse)
+    B=(0,1,inverse%mod)
     while True:
         if B[2]==0:
             return 'no inverse'
