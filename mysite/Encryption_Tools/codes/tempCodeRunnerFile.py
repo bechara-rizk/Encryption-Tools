@@ -1,6 +1,9 @@
- a is None: a=random.randint(2,n-2)
-        if exponentiation(a,q,n) == 1:
-            return True
-        for i in range(k):
-            if exponentiation(a,2**i*q,n) == n-1:
-                return True
+file =open("mysite/Encryption_Tools/codes/primes.txt","r")
+    prime=[]
+    x=file.read()
+    for i in x.split(","):
+        try:
+            prime.append(int(i))
+        except:
+            pass
+    file.close()

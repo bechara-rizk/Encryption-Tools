@@ -1,4 +1,4 @@
-
+from extendedEuclid import extendedEuclid
 
 def prime_list(x):
     """Returns a list of primes up to x"""
@@ -138,9 +138,37 @@ def disc_log_table(base, mod):
         result.append((i,disc_log(i,base,mod)))
     return result
 
+def CRT(mi,A):
+    M=1
+    for i in mi:
+        M*=i
+    L=len(mi)
+    if isinstance(A,int):
+        ai=[]
+        for i in mi:
+            ai.append(A%i)
+    elif isinstance(A,list):
+        ai=A
+        A=None
+    Mi=[]
+    for i in mi:
+        Mi.append(M//i)
+    inv_Mi=[]
+    for i in range(L):
+        inv_Mi.append(extendedEuclid(Mi[i],mi[i]))
+        if inv_Mi[i]=='no inverse':
+            return 'error in m_i'
+    A=0
+    for i in range(L):
+        A+=(ai[i]*Mi[i]*inv_Mi[i])%M
+    return A%M
 
 
-if __name__ == "__main__":
+if __name__=='__main__':
+    print(CRT([3,5,7], 233))
+
+
+if __name__ == "__main__2":
     # p=prime_list(100_000_000)
     # print(len(p))
     # file=open("primes.txt","w")
