@@ -1,11 +1,13 @@
 
 
 class DES:
-    def __init__(self, key):
+    def __init__(self, key, show_rounds=False):
+        self.show_rounds=show_rounds
         if len(key) != 16:
             self.valid=False
         else:
             self.valid=True
+        self.blocksize=64
         self.key = key
         self.key = int(self.key, 16)
         self.key = bin(self.key)[2:].zfill(64)

@@ -8,7 +8,7 @@ Output in hex
 """
 
 class AES():
-    def __init__(self, key, return_state=True, show_rounds=False):
+    def __init__(self, key, return_state=False, show_rounds=False):
         #initializing needed constants
         self.sbox=[[0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76],
     [0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0],
@@ -64,9 +64,10 @@ class AES():
         self.key_valid=True
 
         self.rounds=(self.keylen//8)+6
+        self.blocksize=128
         self.__key_expansion()
     
-    def encryption(self, plaintext):
+    def encrypt(self, plaintext):
         if not self.key_valid:
             return ["Invalid Key: Fix key before proceding, key length must be 128, 192 or 256 bits, and must be in hex format"]
         
@@ -110,7 +111,7 @@ class AES():
             return cipher_as_state
         return cipher
     
-    def decryption(self, ciphertext):
+    def decrypt(self, ciphertext):
         if not self.key_valid:
             return ["Invalid Key: Fix key before proceding, key length must be 128, 192 or 256 bits, and must be in hex format"]
 
@@ -398,7 +399,7 @@ class AES():
 
 if __name__=="__main__":
     a=AES("0f1571c947d9e8590cb7add6af7f6798", False, False)
-    cipher=a.encryption("0123456789abcdeffedcba9876543210")
+    cipher=a.encrypt("0123456789abcdeffedcba9876543210")
     print(cipher)
-    plain=a.decryption("ff0b844a0853bf7c6934ab4364148fb9")
+    plain=a.decrypt("ff0b844a0853bf7c6934ab4364148fb9")
     print(plain)
