@@ -27,6 +27,7 @@ class DES:
         self.shiftSchedule=[1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1]
         self.PC1=[57, 49, 41, 33, 25, 17,  9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 59, 51, 43, 35, 27, 19, 11, 3, 60, 52, 44, 36, 63, 55, 47, 39, 31, 23, 15, 7, 62, 54, 46, 38, 30, 22, 14, 6, 61, 53, 45, 37, 29, 21, 13, 5, 28, 20, 12, 4]
         self.PC2=[14, 17, 11, 24, 1, 5, 3, 28, 15, 6, 21, 10, 23, 19, 12, 4, 26, 8, 16, 7, 27, 20, 13, 2, 41, 52, 31, 37, 47, 55, 30, 40, 51, 45, 33, 48, 44, 49, 39, 56, 34, 53, 46, 42, 50, 36, 29, 32]
+        self.cache=[]
         self.__keyGeneration()
 
     def __keyGeneration(self):
@@ -51,11 +52,14 @@ class DES:
             return 'Invalid key: key must be 16 hex digits'
         if len(plaintext) != 16:
             return 'Invalid plaintext: plaintext must be 16 hex digits'
+        self.cache=[]
         initial=''
         plaintext=bin(int(plaintext,16))[2:].zfill(64)
         for i in self.initialPermutation:
             initial+=plaintext[i-1]
         plaintext=hex(int(initial,2))[2:].zfill(16)
+        self.cache.append('IP:')
+        self.cache.append(plaintext)
         L=plaintext[:8]
         R=plaintext[8:]
         for i in range(16):
@@ -79,6 +83,8 @@ class DES:
             newR=hex(int(L,16)^int(newR,2))[2:].zfill(8)
             R=newR
             L=newL
+            self.cache.append('Round '+str(i+1)+':')
+            self.cache.append(L+R)
 
         #32bitswap
         ciphertext=R+L
@@ -88,6 +94,11 @@ class DES:
         for i in self.inverseInitialPermutation:
             initial+=ciphertext[i-1]
         ciphertext=hex(int(initial,2))[2:].zfill(16)
+        self.cache.append('IP-1:')
+        self.cache.append(ciphertext)
+
+        if self.show_rounds:
+            return self.cache
 
         return ciphertext
 
@@ -95,7 +106,8 @@ class DES:
         if not self.valid:
             return 'Invalid key: key must be 16 hex digits'
         if len(ciphertext) != 16:
-            return 'Invalid ciphertext: plaintext must be 16 hex digits'    
+            return 'Invalid ciphertext: plaintext must be 16 hex digits'
+        self.cache=[]
         initial=''
         ciphertext=bin(int(ciphertext,16))[2:].zfill(64)
         for i in self.initialPermutation:
@@ -104,6 +116,8 @@ class DES:
         L=ciphertext[:8]
         R=ciphertext[8:]
         L,R=R,L
+        self.cache.append('IP:')
+        self.cache.append(ciphertext)
         for i in range(15,-1,-1):
             newR=L
             newL=''
@@ -125,6 +139,8 @@ class DES:
             newL=hex(int(R,16)^int(newL,2))[2:].zfill(8)
             R=newR
             L=newL
+            self.cache.append('Round '+str(i+1)+':')
+            self.cache.append(L+R)
 
         plaintext=L+R
         initial=''
@@ -132,6 +148,11 @@ class DES:
         for i in self.inverseInitialPermutation:
             initial+=plaintext[i-1]
         plaintext=hex(int(initial,2))[2:].zfill(16)
+        self.cache.append('IP-1:')
+        self.cache.append(plaintext)
+
+        if self.show_rounds:
+            return self.cache
 
         return plaintext
 
@@ -142,3 +163,7 @@ if __name__ == '__main__':
     print(des.encrypt('02468aceeca86420')=='da02ce3a89ecac3b')
     print(des.decrypt('da02ce3a89ecac3b'))
     print(des.decrypt('da02ce3a89ecac3b')== '02468aceeca86420')
+
+    des = DES('0f1571c947d9e859', True)
+    print(des.encrypt('02468aceeca86420'))
+    print(des.decrypt('da02ce3a89ecac3b'))
