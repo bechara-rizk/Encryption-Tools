@@ -140,8 +140,8 @@ if __name__=='__main__':
     b='10000011'
     print(gf.add(a, b))
     print(gf.mul(a, b))
-    print(gf.inv(b))
-    print(gf.mul(b,gf.inv(b)))
+    print(gf.inv(a))
+    print(gf.mul(a,gf.inv(a)))
     gf2=GF(2, 3, '1011')
     a='110'
     b='100'

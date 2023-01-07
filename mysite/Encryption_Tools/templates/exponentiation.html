@@ -1,0 +1,45 @@
+{% extends 'default.html' %}
+
+{% block title %}Modular Inverse{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Use the exponentiation method to solve a<sup>b</sup>(mod p) for big numbers</h3>
+    <p>Input decimal numbers</p>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Base</span>
+        <input type="text" name="base" value='{{previousbase}}' class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Exponent</span>
+        <input type="text" name="exponent" value='{{previousexponent}}' class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Mod</span>
+        <input type="text" name="mod" value='{{previousmod}}' class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="exponentiate" value="exponentiate" class="btn btn-success btn-lg">Compute</button>
+    </div>
+</form>
+<div class="container text-center p-2">
+    {% if result %}
+        {% if result == "error"%}
+        <h4>error</h4>
+        {% else %}
+        <h4>{{previousbase}}<sup>{{previousexponent}}</sup>  mod {{previousmod}}: {{result}}</h4>
+        {% endif %}
+    {% endif %}
+</div>
+
+{% endblock %}

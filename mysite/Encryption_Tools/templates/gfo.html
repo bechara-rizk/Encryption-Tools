@@ -1,0 +1,49 @@
+{% extends 'default.html' %}
+
+{% block title %}Modular Inverse{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Perform operations on numbers in GF(p<sup>n</sup>)</h3>
+    <p>Input a, b, and m(x) as numbers is base p and p and n settings as decimal (m(x) and n are optional)</p>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">p</span>
+        <input type="text" name="p" value='{{previousp}}' class="form-control">
+        <span class="input-group-text">n</span>
+        <input type="text" name="n" value='{{previousn}}' class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">a</span>
+        <input type="text" name="a" value='{{previousa}}' class="form-control">
+        <span class="input-group-text">b</span>
+        <input type="text" name="b" value='{{previousb}}' class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">m(x)</span>
+        <input type="text" name="mod" value='{{previousmod}}' class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="add" value="add" class="btn btn-success btn-lg">a + b</button>
+        <button type="submit" name="sub" value="sub" class="btn btn-success btn-lg">a - b</button>
+        <button type="submit" name="mul" value="mul" class="btn btn-success btn-lg">a * b</button>
+        <button type="submit" name="div" value="div" class="btn btn-success btn-lg">a / b</button>
+        <button type="submit" name="inv" value="inv" class="btn btn-success btn-lg">inverse of a mod m(x)</button>
+    </div>
+</form>
+<div class="container text-center p-2">
+    {% if result %}
+    <h4>{{result}}</h4>
+    {% endif %}
+</div>
+
+{% endblock %}

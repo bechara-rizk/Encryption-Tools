@@ -19,3 +19,4 @@ if __name__=='__main__':
     print(exponentiation(988,19271893,19019))
     print(exponentiation(989,19271893,19019))
     print(exponentiation(990,19271893,19019))
+    print(exponentiation(3,3786278,32))

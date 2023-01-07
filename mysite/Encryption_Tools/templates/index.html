@@ -4,6 +4,31 @@
 
 {% block stylesheets %}
 <style>
+    .pages{
+        margin: 0;
+        padding-left: 1rem;
+    }
+    .columns a{
+        text-decoration: none;
+        color: black;
+    }
+    .columns a:hover{
+        color: #007bff;
+        transition: 150ms ease-out;
+    }
+    .columns{
+        display: inline-block;
+        width: 30%;
+        margin: 0 1rem;
+    }
+    @media screen and (max-width: 1200px) {
+        .columns{
+            display: block;
+            width: 100%;
+            margin: 0;
+            padding-bottom: 1rem;
+        }
+    }
     
 </style>
 {% endblock %}
@@ -14,7 +39,75 @@
 </div>
 
 <div class="container">
-    ciphers, etc
+    <div class="columns">
+        <h5>Tools</h5>
+        <ul class="pages">
+            <li><a href="/Encryption-Tools/text_hex">Convert Between Text and Hexadecimal</a></li>
+            <li><a href="/Encryption-Tools/mod_inv">Modular Inverse</a></li>
+            <li><a href="/Encryption-Tools/gfo">Gallois Field Operations</a></li>
+            <li><a href="/Encryption-Tools/exponentiation">Exponentation</a></li>
+        </ul>
+        <br>
+        <h5>Ciphers</h5>
+        <ul class="pages">
+            <li>Ceasar</li>
+            <li>Affine</li>
+            <li>Hill</li>
+            <li>Playfair</li>
+            <li>Viginaire</li>
+            <li>Monoalphabetic</li>
+            <li>Rail Fence</li>
+            <li>Row Transposition</li>
+        </ul>
+    </div>
+    <div class="columns">
+        <h5>Encryption Standards</h5>
+        <ul class="pages">
+            <li>AES</li>
+            <li>DES</li>
+        </ul>
+        <br>
+        <h5>Block Operations</h5>
+        <ul class="pages">
+            <li>ECB</li>
+            <li>CBC</li>
+            <li>CFB</li>
+            <li>OFB</li>
+            <li>CTR</li>
+        </ul>
+        <br>
+        <h5>Elliptic Curve</h5>
+        <ul class="pages">
+            <li>EC operations</li>
+            <li>Diffie-Hellman</li>
+            <li>Elliptic Curve Cryptography</li>
+        </ul>
+    </div>
+    <div class="columns">
+        <h5>Number Theory</h5>
+        <ul class="pages">
+            <li>Relative Primality Testing</li>
+            <li>Euler Totient Function</li>
+            <li>Miller Rabin</li>
+            <li>Chinese Remainder Theorem</li>
+            <li>Primitive Roots</li>
+            <li>Discrete Logarithms</li>
+        </ul>
+        <br>
+        <h5>Public Key Cryptography</h5>
+        <ul class="pages">
+            <li>RSA</li>
+            <li>Diffie-Hellman</li>
+            <li>ElGamal</li>
+        </ul>
+        <br>
+        <h5>Digital Signature</h5>
+        <ul class="pages">
+            <li>ElGamal</li>
+            <li>ECDSA</li>
+        </ul>
+        </ul>
+    </div>
 </div>
 
 {% endblock %}

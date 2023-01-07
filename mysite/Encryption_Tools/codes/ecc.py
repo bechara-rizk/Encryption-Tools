@@ -57,7 +57,7 @@ class ECCPrime:
     def sub(self,P,Q):
         return self.add(P,(Q[0],(-Q[1])%self.p))
 
-def ECC_DH_setup(curve, G, nA=None, nB=None):
+def ECC_DH(curve, G, nA=None, nB=None):
     if G not in curve.all_points():
         return 'G is not a point on the curve'
     search=300
@@ -76,7 +76,7 @@ def ECC_DH_setup(curve, G, nA=None, nB=None):
     K=curve.mul(nA,PB)
     return (nA,nB,PA,PB,K)
 
-def ECC_DH_encrypt(curve, G, Pm, P, k=None):
+def ECC_encrypt(curve, G, Pm, P, k=None):
     if G not in curve.all_points():
         return 'G is not a point on the curve'
     if k is None:
@@ -84,7 +84,7 @@ def ECC_DH_encrypt(curve, G, Pm, P, k=None):
     Cm=(curve.mul(k,G),curve.add(Pm,curve.mul(k,P)))
     return Cm
 
-def ECC_DH_decrypt(curve, n, Cm):
+def ECC_decrypt(curve, n, Cm):
     Pm=curve.sub(Cm[1],curve.mul(n,Cm[0]))
     return Pm
 
@@ -93,6 +93,6 @@ if __name__=='__main__':
     curve=ECCPrime(2,3,67)
     G=(2,22)
     print(len(curve.all_points()))
-    print(ECC_DH_setup(curve,G, 121, 4))
-    print(ECC_DH_encrypt(curve, G, (24,26), (13,45)))
-    print(ECC_DH_decrypt(curve, 4, ((13, 22), (55, 44))))
+    print(ECC_DH(curve,G, 121, 4))
+    print(ECC_encrypt(curve, G, (24,26), (13,45)))
+    print(ECC_decrypt(curve, 4, ((13, 22), (55, 44))))

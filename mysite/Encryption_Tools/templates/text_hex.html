@@ -1,0 +1,33 @@
+{% extends 'default.html' %}
+
+{% block title %}Text Conversion{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center p-2">
+    <h3>Convert text to hexadecimal and back</h3>
+</div>
+<form method="post">
+{% csrf_token %}
+<div class="container input-group p-2" style="width:95%; max-width: 700px;">
+    <span class="input-group-text">Data</span>
+    <textarea type="text" name="text" class="form-control">{{previous}}</textarea>
+</div>
+<div class="p-2 text-center">
+    <button type="submit" name="convert" value="convert" class="btn btn-success btn-lg">Text -> Hex</button>
+    <button type="submit" name="revert" value="revert" class="btn btn-success btn-lg">Hex -> Text</button>
+</div>
+</form>
+<div class="container text-center p-2">
+    {% if result %}
+    <h4>Result: {{result}}</h4>
+    {% endif %}
+</div>
+
+{% endblock %}

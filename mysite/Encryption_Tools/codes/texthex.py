@@ -3,7 +3,9 @@
 def text_to_hex(text):
     result = ''
     for i in text:
-        result += hex(ord(i))[2:]
+        result += hex(ord(i))[2:].zfill(2)
+        if len(hex(ord(i))[2:])>2:
+            return 'Error: The text contains non-ASCII characters.'
     return result
 
 
