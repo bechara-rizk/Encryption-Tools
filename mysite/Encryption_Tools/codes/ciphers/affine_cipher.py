@@ -1,7 +1,10 @@
-from extendedEuclid import extendedEuclid
+try:
+    from . import extendedEuclid
+except:
+    import extendedEuclid
 
 def affine_cipher_enc(text, a, b):
-    if extendedEuclid(a, 26) == 'no inverse':
+    if extendedEuclid.extendedEuclid(a, 26) == 'no inverse':
         return f'{a} and 26 are not relatively prime'
     result = ''
     for char in text:
@@ -15,7 +18,7 @@ def affine_cipher_enc(text, a, b):
 
 
 def affine_cipher_dec(text, a, b):
-    inverse = extendedEuclid(a, 26)
+    inverse = extendedEuclid.extendedEuclid(a, 26)
     if inverse == 'no inverse':
         return f'{a} and 26 are not relatively prime'
     result = ''

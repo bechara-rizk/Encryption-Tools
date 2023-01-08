@@ -1,4 +1,4 @@
-from extendedEuclid import extendedEuclid
+from .extendedEuclid import extendedEuclid
 
 def prime_list(x):
     """Returns a list of primes up to x"""
@@ -71,7 +71,7 @@ def totient(x):
     return len(res)
 
 from random import randint
-from exponentiation import exponentiation
+from .exponentiation import exponentiation
 
 def milller_rabbin(n, rounds=1, a=None):
     if rounds<1 or n<2 or (a is not None and (a<2 or a>=n)):

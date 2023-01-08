@@ -1,0 +1,38 @@
+{% extends 'default.html' %}
+
+{% block title %}Rail Fence Cipher{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Encrypts the text based on the Rail Fence Cipher</h3>
+    <p>Depth must be a number and text must be made of letters</p>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Text</span>
+        <input type="text" name="text" value='{{previoustext}}' class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Depth</span>
+        <input type="text" name="key" value='{{previouskey}}' class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="enc" value="enc" class="btn btn-success btn-lg">Encrypt</button>
+        <button type="submit" name="dec" value="dec" class="btn btn-success btn-lg">Decrypt</button>
+    </div>
+</form>
+<div class="container text-center p-2">
+    {% if result %}
+    <h4>Result: {{result}}</h4>
+    {% endif %}
+</div>
+
+{% endblock %}

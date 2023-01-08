@@ -98,7 +98,11 @@ class DES:
         self.cache.append(ciphertext)
 
         if self.show_rounds:
-            return self.cache
+            round_keys=[]
+            for i in range(len(self.keys)):
+                round_keys.append(f'Round {i+1} key:')
+                round_keys.append(self.keys[i])
+            return self.cache, round_keys
 
         return ciphertext
 
@@ -152,7 +156,11 @@ class DES:
         self.cache.append(plaintext)
 
         if self.show_rounds:
-            return self.cache
+            round_keys=[]
+            for i in range(len(self.keys)):
+                round_keys.append(f'Round {i+1} key:')
+                round_keys.append(self.keys[i])
+            return self.cache, round_keys
 
         return plaintext
 

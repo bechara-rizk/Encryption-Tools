@@ -1,4 +1,4 @@
-from extendedEuclid import extendedEuclid
+from .extendedEuclid import extendedEuclid
 from random import randint, random
 
 class ECCPrime:

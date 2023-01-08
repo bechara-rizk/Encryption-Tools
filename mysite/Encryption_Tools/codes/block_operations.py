@@ -1,6 +1,11 @@
-from aes import AES
-from des import DES
-from partition import partition_pad, partition_unpad
+try:
+    from aes import AES
+    from des import DES
+    from partition import partition_pad, partition_unpad
+except:
+    from .aes import AES
+    from .des import DES
+    from .partition import partition_pad, partition_unpad
 from random import randint
 
 
@@ -54,7 +59,7 @@ def CBC(sch, key, data, op, iv=None):
                 result[i]=hex(int(result[i], 16) ^ int(data[i-1], 16))[2:].zfill(cipher.blocksize//4)
         result = ''.join(result)
         result=partition_unpad(result, cipher.blocksize)
-        return result
+        return iv,result
 
 def CFB(sch, key, data, op, iv=None):
     return 'Not Implemented'
@@ -93,7 +98,7 @@ def OFB(sch, key, data, op ,nonce=None):
             result[i]=hex(int(result[i], 16) ^ int(data[i], 16))[2:].zfill(cipher.blocksize//4)
         result = ''.join(result)
         result=partition_unpad(result, cipher.blocksize)
-        return result
+        return nonce,result
     
 def CTR(sch, key, data, op):
     return 'Not Implemented'
@@ -123,6 +128,7 @@ if __name__=='__main__':
     key = '0f1571c947d9e8590cb7add6af7f6798'
     data='6bc1bee22e409f172a372832949392020830947823984723'
     result=operation('aes', 'ecb', key, data, 'encrypt')
+    print(result)
     res2=operation('aes', 'ecb', key, result, 'decrypt')
     print('AES, ECB',res2==data)
 

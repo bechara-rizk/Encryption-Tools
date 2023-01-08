@@ -1,0 +1,51 @@
+{% extends 'default.html' %}
+
+{% block title %}CBC{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Encrypts the input based on AES or DES in CBC mode</h3>
+    <p>Text and key must be in hex format, key must be 64 bits long for DES or 128, 192, or 256 bits long for AES, text can be any length</p>
+    <p>IV must be in hex format and must be 64 bits long for DES or 128 bits long for AES</p>
+    <p>IV is optional for encryption but is necessary for decryption</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Text</span>
+        <!-- <input type="text" name="text" value="{{previoustext}}" class="form-control"> -->
+        <textarea type="text" name="text" class="form-control">{{previoustext}}</textarea>
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Key</span>
+        <input type="text" name="key" value="{{previouskey}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">IV</span>
+        <input type="text" name="iv" value="{{previousiv}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="aenc" value="aenc" class="btn btn-success btn-lg">Encrypt using AES</button>
+        <button type="submit" name="adec" value="adec" class="btn btn-success btn-lg">Decrypt using AES</button>
+        <button type="submit" name="denc" value="denc" class="btn btn-success btn-lg">Encrypt using DES</button>
+        <button type="submit" name="ddec" value="ddec" class="btn btn-success btn-lg">Decrypt using DES</button>
+    </div>
+</form>
+
+<div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if text %}
+    <h5>IV: {{text.0}}</h5>
+    <h5>Result: {{text.1}}</h5>
+    {% endif %}
+</div>
+
+{% endblock %}

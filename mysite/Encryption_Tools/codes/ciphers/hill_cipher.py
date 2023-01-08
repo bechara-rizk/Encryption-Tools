@@ -1,4 +1,4 @@
-from extendedEuclid import extendedEuclid
+from . import extendedEuclid
 from numpy import linalg, matrix
 
 def hill_cipher_2_enc(text, key):
@@ -7,7 +7,7 @@ def hill_cipher_2_enc(text, key):
     det=(key[0][0]*key[1][1]-key[0][1]*key[1][0])%26
     if det==0:
         return 'key is not invertible'
-    elif extendedEuclid(det, 26)=='no inverse':
+    elif extendedEuclid.extendedEuclid(det, 26)=='no inverse':
         return 'key is not invertible'
     if any(char.isdigit() for char in text):
         return 'text must be alphabetic only'
@@ -31,11 +31,11 @@ def hill_cipher_2_dec(text, key):
     det=(key[0][0]*key[1][1]-key[0][1]*key[1][0])%26
     if det==0:
         return 'key is not invertible'
-    elif extendedEuclid(det, 26)=='no inverse':
+    elif extendedEuclid.extendedEuclid(det, 26)=='no inverse':
         return 'key is not invertible'
     if any(char.isdigit() for char in text):
         return 'text must be alphabetic only'
-    inv=extendedEuclid(det, 26)
+    inv=extendedEuclid.extendedEuclid(det, 26)
     inverse=[[(inv*key[1][1])%26,(-1*inv*key[0][1])%26],[(-1*inv*key[1][0])%26,(inv*key[0][0])%26]]
     text=text.lower().split(' ')
     result=[]
@@ -54,7 +54,7 @@ def hill_cipher_3_enc(text, key):
     det=linalg.det(matrix(key))%26
     if det==0:
         return 'key is not invertible'
-    elif extendedEuclid(det, 26)=='no inverse':
+    elif extendedEuclid.extendedEuclid(det, 26)=='no inverse':
         return 'key is not invertible'
     if any(char.isdigit() for char in text):
         return 'text must be alphabetic only'
@@ -79,9 +79,9 @@ def invert_matrix_mod(mx, mod):
     det=linalg.det(mx)%mod
     if det==0:
         return 'key is not invertible'
-    elif extendedEuclid(det, mod)=='no inverse':
+    elif extendedEuclid.extendedEuclid(det, mod)=='no inverse':
         return 'key is not invertible'
-    inv=extendedEuclid(int(det), mod)
+    inv=extendedEuclid.extendedEuclid(int(det), mod)
     adj=[[None for i in range(5)] for i in range(5)]
     for i in range(3):
         adj[i]=[mx[i][0], mx[i][1], mx[i][2], mx[i][0], mx[i][1]]
@@ -103,7 +103,7 @@ def hill_cipher_3_dec(text, key):
     det=linalg.det(matrix(key))%26
     if det==0:
         return 'key is not invertible'
-    elif extendedEuclid(det, 26)=='no inverse':
+    elif extendedEuclid.extendedEuclid(det, 26)=='no inverse':
         return 'key is not invertible'
     if any(char.isdigit() for char in text):
         return 'text must be alphabetic only'

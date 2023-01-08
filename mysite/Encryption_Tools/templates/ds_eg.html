@@ -1,0 +1,60 @@
+{% extends 'default.html' %}
+
+{% block title %}El Gamal Digital Signaure{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Sign and verify using the El Gamal Digital Signature</h3>
+    <p>All inputs must be numbers, q must be prime, a must be a primitive root of q</p>
+    <p>xA and k are optional, k and q-1 must be relatively prime</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">q</span>
+        <input type="text" name="q" value="{{previousq}}" class="form-control">
+        <span class="input-group-text">a</span>
+        <input type="text" name="a" value="{{previousa}}" class="form-control">
+        <span class="input-group-text">k</span>
+        <input type="text" name="k" value="{{previousk}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">m</span>
+        <input type="text" name="m" value="{{previousm}}" class="form-control">
+        <span class="input-group-text">xA</span>
+        <input type="text" name="xa" value="{{previousxa}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">yA</span>
+        <input type="text" name="ya" value="{{previousya}}" class="form-control">
+        <span class="input-group-text">S1</span>
+        <input type="text" name="s1" value="{{previouss1}}" class="form-control">
+        <span class="input-group-text">S2</span>
+        <input type="text" name="s2" value="{{previouss2}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="setup" value="setup" class="btn btn-success btn-lg">Sign</button>
+        <button type="submit" name="verify" value="verify" class="btn btn-success btn-lg">Verify</button>
+    </div>
+</form>
+
+<div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if text is None%}
+    
+    {% elif text %}
+    <h5>Digital signature is correct!</h5>
+    {% else %}
+    <h5>Digital signature is incorrect!</h5>
+    {% endif %}
+</div>
+
+{% endblock %}

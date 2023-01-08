@@ -1,8 +1,8 @@
-from primes import test_prime, primitive_root_test, rel_prime
+from .primes import test_prime, primitive_root_test, rel_prime
 from random import randint
-from exponentiation import exponentiation
-from extendedEuclid import extendedEuclid
-from ecc import ECCPrime
+from .exponentiation import exponentiation
+from .extendedEuclid import extendedEuclid
+from .ecc import ECCPrime
 
 def elgamal_ds_setup(q,a,m,xA=None,k=None):
     if not test_prime(q):
@@ -19,7 +19,7 @@ def elgamal_ds_setup(q,a,m,xA=None,k=None):
     S1=exponentiation(a,k,q)
     invK=extendedEuclid(k,q-1)
     S2=(invK*(m-xA*S1))%(q-1)
-    return (yA,S1,S2)
+    return (xA,k,yA,S1,S2)
 
 def elgamal_ds_verify(q,a,m,yA,S):
     V1=exponentiation(a,m,q)
