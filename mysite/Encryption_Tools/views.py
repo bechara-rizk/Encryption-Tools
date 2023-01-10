@@ -11,7 +11,40 @@ from .codes import primes
 def index(request):
     return render(request, 'index.html')
 
+def dl(request):
+    if request.method=='POST':
+        if request.POST.get('compute'):
+            base=int(request.POST.get('base'))
+            mod=int(request.POST.get('mod'))
+            table=primes.disc_log_table(base,mod)
+            return render(request, 'dl.html', {'previousbase':base,'previousmod':mod,'result':table})
+    return render(request, 'dl.html')
+
+def pr(request):
+    if request.method=='POST':
+        if request.POST.get('compute'):
+            n=int(request.POST.get('n'))
+            result=primes.primitive_roots(n)
+            return render(request, 'pr.html', {'previousn':n,'result':result})
+    return render(request, 'pr.html', {'length':'auto auto auto'})
+
 def crt(request):
+    if request.method=='POST':
+        if request.POST.get('compute'):
+            m=request.POST.get('m')
+            mi=m.split(',')
+            for i in range(len(mi)):
+                mi[i]=int(mi[i])
+            print(mi)
+            a=request.POST.get('a')
+            if ',' in a:
+                ai=a.split(',')
+                for i in range(len(ai)):
+                    ai[i]=int(ai[i])
+            else:
+                ai=int(a)
+            result=primes.CRT(mi,ai)
+            return render(request, 'crt.html', {'result':result,'previousm':m,'previousa':a})
     return render(request, 'crt.html')
 
 def mr(request):

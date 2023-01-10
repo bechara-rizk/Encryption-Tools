@@ -1,4 +1,10 @@
-from .extendedEuclid import extendedEuclid
+try:
+    from .extendedEuclid import extendedEuclid
+    from .exponentiation import exponentiation
+except:
+    from extendedEuclid import extendedEuclid
+    from exponentiation import exponentiation
+from random import randint
 
 def prime_list(x):
     """Returns a list of primes up to x"""
@@ -69,9 +75,6 @@ def totient(x):
         if rel_prime(i,x):
             res.append(i)
     return len(res)
-
-from random import randint
-from .exponentiation import exponentiation
 
 def miller_rabbin(n, rounds=1, a=None):
     if rounds<1 or n<2 or (a is not None and (a<2 or a>=n)):
@@ -168,7 +171,7 @@ if __name__=='__main__':
     print(CRT([3,5,7], 233))
 
 
-if __name__ == "__main__2":
+if __name__ == "__main__":
     # p=prime_list(100_000_000)
     # print(len(p))
     # file=open("primes.txt","w")
@@ -196,6 +199,6 @@ if __name__ == "__main__2":
     # print(primitive_root_test(1021,538))
     print(primitive_roots(9))
     print(primitive_root_test(9,2))
-    print(disc_log(6,2,9))
+    print(disc_log(9,2,19))
     print(disc_log_table(2,19))
     print(disc_log_table(2,9))

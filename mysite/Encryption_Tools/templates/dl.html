@@ -1,0 +1,60 @@
+{% extends 'default.html' %}
+
+{% block title %}Discrete Logarithms{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+table, th, td {
+    border:1px solid black;
+}
+td{
+    width:3rem;
+}
+th{
+    width:6rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Compute discrete logarithms</h3>
+    <p>Inputs must be integers</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">base</span>
+        <input type="text" name="base" value="{{previousbase}}" class="form-control">
+        <span class="input-group-text">mod</span>
+        <input type="text" name="mod" value="{{previousmod}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="compute" value="compute" class="btn btn-success btn-lg">Get Table</button>
+    </div>
+</form>
+
+<div class="container text-center p-2" style="width: 90%; overflow-x: auto;">
+    {% if result %}
+    <table style="margin-left:auto; margin-right:auto;">
+        <tr>
+            <th>a</th>
+            {% for i in result %}
+            <td>{{i.0}}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>log<sub>{{previousbase}},{{previousmod}}</sub>(a)</th>
+            {% for i in result %}
+            <td>{{i.1}}</td>
+            {% endfor %}
+        </tr>
+    </table>
+    {% endif %}
+    
+</div>
+
+{% endblock %}
