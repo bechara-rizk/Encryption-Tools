@@ -1,0 +1,40 @@
+{% extends 'default.html' %}
+
+{% block title %}Miller Rabbin Algorithm{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Execute the Miller Rabbin Algorithm to test if a number is maybe prime</h3>
+    <p>All input must be numbers, rounds and base are optional</p>
+
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">n</span>
+        <input type="text" name="n" value="{{previousn}}" class="form-control">
+        <span class="input-group-text">rounds</span>
+        <input type="text" name="rounds" value="{{previousrounds}}" class="form-control">
+        <span class="input-group-text">base</span>
+        <input type="text" name="base" value="{{previousbase}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="test" value="test" class="btn btn-success btn-lg">Test</button>
+    </div>
+</form>
+
+<div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if result %}
+    <h5>{{result}}</h5>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -2,13 +2,280 @@ from django.shortcuts import render
 from .codes import texthex, extendedEuclid, exponentiation, gallois_fields
 from .codes.ciphers import caesar_cipher, affine_cipher, hill_cipher, playfair_cipher, viginere_cipher, monoalphabetic_cipher, rail_fence_cipher, row_transposition_cipher
 from .codes import aes, des, block_operations, digitial_signature
+from .codes.ecc import ECCPrime, ECC_DH, ECC_decrypt, ECC_encrypt
+from .codes import asymetric_encryption
+from .codes import primes
 # from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
+def crt(request):
+    return render(request, 'crt.html')
+
+def mr(request):
+    if request.method=='POST':
+        if request.POST.get('test'):
+            n=int(request.POST.get('n'))
+            rounds=request.POST.get('rounds')
+            if rounds!='':
+                rounds=int(rounds)
+            else:
+                rounds=1
+            a=request.POST.get('base')
+            if a!='':
+                ai=int(a)
+            else:
+                ai=None
+            result=primes.miller_rabbin(n, rounds, ai)
+            if result:
+                result=f'Maybe prime with probability {1-4**(-rounds)}'
+            else:
+                result='Not prime'
+            return render(request, 'mr.html', {'previousn':n,'previousrounds':rounds,'previousbase':a,'result':result})
+    return render(request, 'mr.html')
+
+def etf(request):
+    if request.method=='POST':
+        if request.POST.get('compute'):
+            n=int(request.POST.get('n'))
+            result=primes.totient(n)
+            return render(request, 'etf.html', {'previousn':n, 'result':result})
+    return render(request, 'etf.html')
+
+def rpt(request):
+    if request.method=='POST':
+        if request.POST.get('test'):
+            a=int(request.POST.get('a'))
+            b=int(request.POST.get('b'))
+            result=primes.rel_prime(a,b)
+            return render(request, 'rpt.html', {'previousa':a, 'previousb':b, 'result':str(result)})
+    return render(request, 'rpt.html')
+
+def ecc(request):
+    if request.method=='POST':
+        a=request.POST.get('a')
+        a=int(a)
+        b=request.POST.get('b')
+        b=int(b)
+        p=request.POST.get('p')
+        p=int(p)
+        curve=ECCPrime(a,b,p)
+        if request.POST.get('enc'):
+            gx=int(request.POST.get('gx'))
+            gy=int(request.POST.get('gy'))
+            G=(gx,gy)
+            px=int(request.POST.get('px'))
+            py=int(request.POST.get('py'))
+            P=(px,py)
+            pmx=int(request.POST.get('pmx'))
+            pmy=int(request.POST.get('pmy'))
+            Pm=(pmx,pmy)
+            Cm=ECC_encrypt(curve, G, Pm, P)
+            return render(request, 'ecc.html', {'previousa':a,'previousb':b,'previousp':p,'previousgx':gx,'previousgy':gy,'previouspx':px,'previouspy':py,'previouspmx':pmx,'previouspmy':pmy,'previouscm1x':Cm[0][0],'previouscm1y':Cm[0][1],'previouscm2x':Cm[1][0],'previouscm2y':Cm[1][1]})
+        if request.POST.get('dec'):
+            n=int(request.POST.get('n'))
+            cm1x=int(request.POST.get('cm1x'))
+            cm1y=int(request.POST.get('cm1y'))
+            cm2x=int(request.POST.get('cm2x'))
+            cm2y=int(request.POST.get('cm2y'))
+            Cm=((cm1x,cm1y),(cm2x,cm2y))
+            Pm=ECC_decrypt(curve, n, Cm)
+            return render(request, 'ecc.html', {'previousa':a,'previousb':b,'previousp':p,'previouspmx':Pm[0],'previouspmy':Pm[1],'previouscm1x':Cm[0][0],'previouscm1y':Cm[0][1],'previouscm2x':Cm[1][0],'previouscm2y':Cm[1][1], 'previousn':n})
+    return render(request, 'ecc.html')
+
+def ecdh(request):
+    if request.method=='POST':
+        if request.POST.get('setup'):
+            a=request.POST.get('a')
+            a=int(a)
+            b=request.POST.get('b')
+            b=int(b)
+            p=request.POST.get('p')
+            p=int(p)
+            curve=ECCPrime(a,b,p)
+            gx=request.POST.get('gx')
+            gx=int(gx)
+            gy=request.POST.get('gy')
+            gy=int(gy)
+            na=request.POST.get('na')
+            nb=request.POST.get('nb')
+            if na!='':
+                nai=int(na)
+            else:
+                nai=None
+            if nb!='':
+                nbi=int(nb)
+            else:
+                nbi=None
+            na,nb,PA,PB,K=ECC_DH(curve,(gx,gy),nai,nbi)
+            return render(request, 'ecdh.html', {'previousa':a,'previousb':b,'previousp':p,'previousgx':gx,'previousgy':gy,'previousna':na,'previousnb':nb,'previouspa':PA,'previouspb':PB,'previousk':K})
+    return render(request, 'ecdh.html')
+
+def eco(request):
+    if request.method=='POST':
+        a=request.POST.get('a')
+        a=int(a)
+        b=request.POST.get('b')
+        b=int(b)
+        p=request.POST.get('p')
+        p=int(p)
+        px=request.POST.get('px')
+        py=request.POST.get('py')
+        qx=request.POST.get('qx')
+        qy=request.POST.get('qy')
+        n=request.POST.get('n')
+        curve=ECCPrime(a,b,p)
+        resultpoints=''
+        result=''
+        if request.POST.get('show'):
+            resultpoints=curve.all_points()
+        elif request.POST.get('add'):
+            P=(int(px),int(py))
+            Q=(int(qx),int(qy))
+            result=curve.add(P,Q)
+            result=f'({px},{py}) + ({qx},{qy}) = {result}'
+        elif request.POST.get('mul'):
+            P=(int(px),int(py))
+            result=curve.mul(int(n),P)
+            result=f'{n} * ({px},{py}) = {result}'
+        return render(request, "eco.html", {'result':result,'resultpoints':resultpoints,'previousa':a,'previousb':b,'previousp':p,'previouspx':px,'previouspy':py,'previousqx':qx,'previousqy':qy,'previousn':n})
+    return render(request, 'eco.html')
+
+def elgamal(request):
+    if request.method=='POST':
+        q=request.POST.get('q')
+        q=int(q)
+        a=request.POST.get('a')
+        xa=request.POST.get('xa')
+        ya=request.POST.get('ya')
+        m=request.POST.get('m')
+        c1=request.POST.get('c1')
+        c2=request.POST.get('c2')
+        if request.POST.get('setup'):
+            if a!='':
+                ai=int(a)
+            else:
+                ai=None
+            if xa!='':
+                xai=int(xa)
+            else:
+                xai=None
+            q,a,xa,ya=asymetric_encryption.el_gamal_setup(q, ai, xai)
+            return render(request, 'elgamal.html', {'previousq':q,'previousa':a,'previousxa':xa,'previousya':ya, 'previousm':m, 'previousc1':c1, 'previousc2':c2})
+        elif request.POST.get('enc'):
+            a=int(a)
+            ya=int(ya)
+            m=int(m)
+            c1,c2=asymetric_encryption.el_gamal_encrypt(m,q,a,ya)
+            return render(request, 'elgamal.html', {'previousq':q,'previousa':a,'previousxa':xa,'previousya':ya, 'previousm':m, 'previousc1':c1, 'previousc2':c2})
+        elif request.POST.get('dec'):
+            xa=int(xa)
+            c1=int(c1)
+            c2=int(c2)
+            m=asymetric_encryption.el_gamal_decrypt(c1,c2,q,xa)
+            return render(request, 'elgamal.html', {'previousq':q,'previousa':a,'previousxa':xa,'previousya':ya, 'previousm':m, 'previousc1':c1, 'previousc2':c2})
+    return render(request, 'elgamal.html')
+
+def dh(request):
+    if request.method=="POST" and request.POST.get('setup'):
+        q=request.POST.get('q')
+        q=int(q)
+        a=request.POST.get('a')
+        if a!='':
+            ai=int(a)
+        else:
+            ai=None
+        xa=request.POST.get('xa')
+        if xa!='':
+            xai=int(xa)
+        else:
+            xai=None
+        xb=request.POST.get('xb')
+        if xb!='':
+            xbi=int(xb)
+        else:
+            xbi=None
+        a,xa,xb,ya,yb,key=asymetric_encryption.DH_key_exchange(q,ai,xai,xbi)
+        return render(request, 'dh.html', {'previousq': q,'previousa': a,'previousxa': xa,'previousxb': xb,'previousya': ya,'previousyb': yb,'previouskey': key})
+    return render(request, 'dh.html')
+
+def rsa(request):
+    if request.method=="POST":
+        p=request.POST.get("p")
+        p=int(p)
+        q=request.POST.get("q")
+        q=int(q)
+        e=request.POST.get("e")
+        n=request.POST.get("n")
+        phi=request.POST.get("phi")
+        d=request.POST.get("d")
+        m=request.POST.get("m")
+        c=request.POST.get("c")
+        if request.POST.get("setup"):
+            if e !='':
+                ei=int(e)
+            else:
+                ei=None
+            n,phi,e,d=asymetric_encryption.RSA_setup(p, q, ei)
+            return render(request, 'rsa.html', {"previousp":p, "previousq":q, "previouse":e, "previousm":m, "previousn":n, "previousphi":phi, "previousd":d, "previousc":c})
+        elif request.POST.get("enc"):
+            m=int(m)
+            e=int(e)
+            n=int(n)
+            result=asymetric_encryption.RSA_encrypt(m, e, n)
+            return render(request, 'rsa.html', {"previousp":p, "previousq":q, "previouse":e, "previousm":m, "previousn":n, "previousphi":phi, "previousd":d, "previousc":result})
+        elif request.POST.get("dec"):
+            c=int(c)
+            d=int(d)
+            n=int(n)
+            result=asymetric_encryption.RSA_encrypt(c, d, n)
+            return render(request, 'rsa.html', {"previousp":p, "previousq":q, "previouse":e, "previousm":result, "previousn":n, "previousphi":phi, "previousd":d, "previousc":c})
+    return render(request, 'rsa.html')
+
 def ecdsa(request):
+    if request.method=="POST":
+        a=request.POST.get("a")
+        a=int(a)
+        b=request.POST.get("b")
+        b=int(b)
+        p=request.POST.get("p")
+        p=int(p)
+        gx=request.POST.get("gx")
+        gx=int(gx)
+        gy=request.POST.get("gy")
+        gy=int(gy)
+        e=request.POST.get("e")
+        e=int(e)
+        d=request.POST.get("d")
+        k=request.POST.get('k')
+        curve=ECCPrime(a, b, p)
+        G=(gx, gy)
+        if request.POST.get("setup"):
+            if d!='':
+                di=int(d)
+            else:
+                di=None
+            if k!='':
+                ki=int(k)
+            else:
+                ki=None
+            result=digitial_signature.ECDSA_setup(curve, G, e, di, ki)
+            return render(request, 'ecdsa.html', {"previousa":a, "previousb":b, "previousp":p, "previousgx":gx, "previousgy":gy, "previouse":e, "previousd":result[4], "previousk":result[5], 'previousqx':result[0][0], 'previousqy':result[0][1], 'previousr':result[1], 'previouss':result[2], 'previousorder':result[3]})
+        elif request.POST.get("verify"):
+            qx=request.POST.get("qx")
+            qx=int(qx)
+            qy=request.POST.get("qy")
+            qy=int(qy)
+            r=request.POST.get("r")
+            r=int(r)
+            s=request.POST.get("s")
+            s=int(s)
+            n=request.POST.get("order")
+            n=int(n)
+            result=digitial_signature.ECDSA_verify(curve, G, (qx, qy), e, r, s, n)
+            return render(request, 'ecdsa.html', {"text":result, "previousa":a, "previousb":b, "previousp":p, "previousgx":gx, "previousgy":gy, "previouse":e, "previousd":d, "previousk":k, 'previousqx':qx, 'previousqy':qy, 'previousr':r, 'previouss':s, 'previousorder':n})
     return render(request, 'ecdsa.html')
 
 def ds_eg(request):
@@ -40,7 +307,7 @@ def ds_eg(request):
             s2=request.POST.get("s2")
             s2=int(s2)
             result=digitial_signature.elgamal_ds_verify(q, a, m, yA, (s1, s2))
-            return render(request, 'ds_eg.html', {"text":(result), "previousq":q, "previousa":a, "previousm":m, "previousxa":xA, "previousk":k, "previousya":yA, "previouss1":s1, "previouss2":s2})
+            return render(request, 'ds_eg.html', {"text":result, "previousq":q, "previousa":a, "previousm":m, "previousxa":xA, "previousk":k, "previousya":yA, "previouss1":s1, "previouss2":s2})
         else:
             result=''
     return render(request, 'ds_eg.html')

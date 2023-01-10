@@ -1,7 +1,7 @@
 from random import randint
-from primes import rel_prime, test_prime, primitive_root_test
-from extendedEuclid import extendedEuclid
-from exponentiation import exponentiation
+from .primes import rel_prime, test_prime, primitive_root_test
+from .extendedEuclid import extendedEuclid
+from .exponentiation import exponentiation
 
 def RSA_setup(p, q, e=None):
     n=p*q
@@ -11,7 +11,7 @@ def RSA_setup(p, q, e=None):
         while not rel_prime(e,phi):
             e=randint(2,phi-1)
     d=extendedEuclid(e,phi)
-    return (n,e,d)
+    return (n,phi,e,d)
 
 def RSA_encrypt(m, e, n):
     return exponentiation(m,e,n)

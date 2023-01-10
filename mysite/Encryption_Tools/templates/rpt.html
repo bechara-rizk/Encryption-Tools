@@ -1,0 +1,37 @@
+{% extends 'default.html' %}
+
+{% block title %}Relative Primes{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Test if two numbers are relatively prime</h3>
+    <p>All inputs must be numbers</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">a</span>
+        <input type="text" name="a" value="{{previousa}}" class="form-control">
+        <span class="input-group-text">b</span>
+        <input type="text" name="b" value="{{previousb}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="test" value="test" class="btn btn-success btn-lg">Test</button>
+    </div>
+</form>
+
+<div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if result %}
+    <h5>{{result}}</h5>
+    {% endif %}
+</div>
+
+{% endblock %}

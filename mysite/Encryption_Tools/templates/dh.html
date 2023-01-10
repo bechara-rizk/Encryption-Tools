@@ -1,0 +1,53 @@
+{% extends 'default.html' %}
+
+{% block title %}DH Key Exchange{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Diffie-Hellman Key Exchange</h3>
+    <p>All inputs must be numbers</p>
+    <p>q must be prime, a, xA, and xB are optional but a must be primitive root of q</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">q</span>
+        <input type="text" name="q" value="{{previousq}}" class="form-control">
+        <span class="input-group-text">a</span>
+        <input type="text" name="a" value="{{previousa}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">xA</span>
+        <input type="text" name="xa" value="{{previousxa}}" class="form-control">
+        <span class="input-group-text">xB</span>
+        <input type="text" name="xb" value="{{previousxb}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">yA</span>
+        <input type="text" name="ya" value="{{previousya}}" class="form-control">
+        <span class="input-group-text">yB</span>
+        <input type="text" name="yb" value="{{previousyb}}" class="form-control">
+        <span class="input-group-text">Key</span>
+        <input type="text" name="key" value="{{previouskey}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="setup" value="setup" class="btn btn-success btn-lg">Compute keys</button>
+    </div>
+</form>
+
+<!-- <div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if result %}
+    <h5>Result: {{result}}</h5>
+    {% endif %}
+</div> -->
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'default.html' %}
+
+{% block title %}ECC{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Elliptic Curve Cryptography</h3>
+    <p>All inputs must be numbers, G must be a point on the curve</p>
+    <p>Pm is the message, P is the public key, n is the private key</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">a</span>
+        <input type="text" name="a" value="{{previousa}}" class="form-control">
+        <span class="input-group-text">b</span>
+        <input type="text" name="b" value="{{previousb}}" class="form-control">
+        <span class="input-group-text">p</span>
+        <input type="text" name="p" value="{{previousp}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Gx</span>
+        <input type="text" name="gx" value="{{previousgx}}" class="form-control">
+        <span class="input-group-text">Gy</span>
+        <input type="text" name="gy" value="{{previousgy}}" class="form-control">
+        <span class="input-group-text">Px</span>
+        <input type="text" name="px" value="{{previouspx}}" class="form-control">
+        <span class="input-group-text">Py</span>
+        <input type="text" name="py" value="{{previouspy}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Pmx</span>
+        <input type="text" name="pmx" value="{{previouspmx}}" class="form-control">
+        <span class="input-group-text">Pmy</span>
+        <input type="text" name="pmy" value="{{previouspmy}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">n</span>
+        <input type="text" name="n" value="{{previousn}}" class="form-control">
+        <span class="input-group-text">Cm1x</span>
+        <input type="text" name="cm1x" value="{{previouscm1x}}" class="form-control">
+        <span class="input-group-text">Cm1y</span>
+        <input type="text" name="cm1y" value="{{previouscm1y}}" class="form-control">
+        <span class="input-group-text">Cm2x</span>
+        <input type="text" name="cm2x" value="{{previouscm2x}}" class="form-control">
+        <span class="input-group-text">Cm2y</span>
+        <input type="text" name="cm2y" value="{{previouscm2y}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="enc" value="enc" class="btn btn-success btn-lg">Encrypt</button>
+        <button type="submit" name="dec" value="dec" class="btn btn-success btn-lg">Decrypt</button>
+    </div>
+</form>
+
+<!-- <div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if result %}
+    <h5>{{result}}</h5>
+    {% endif %}
+</div> -->
+
+{% endblock %}

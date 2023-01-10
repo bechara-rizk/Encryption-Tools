@@ -1,0 +1,60 @@
+{% extends 'default.html' %}
+
+{% block title %}Elliptice Curve Operations{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Execute operations on an Elliptice Curve</h3>
+    <p>All inputs must be numbers</p>
+    <p>y<sup>2</sup>=x<sup>3</sup>+a*x+b mod p</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">a</span>
+        <input type="text" name="a" value="{{previousa}}" class="form-control">
+        <span class="input-group-text">b</span>
+        <input type="text" name="b" value="{{previousb}}" class="form-control">
+        <span class="input-group-text">p</span>
+        <input type="text" name="p" value="{{previousp}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Px</span>
+        <input type="text" name="px" value="{{previouspx}}" class="form-control">
+        <span class="input-group-text">Py</span>
+        <input type="text" name="py" value="{{previouspy}}" class="form-control">
+        <span class="input-group-text">Qx</span>
+        <input type="text" name="qx" value="{{previousqx}}" class="form-control">
+        <span class="input-group-text">Qy</span>
+        <input type="text" name="qy" value="{{previousqy}}" class="form-control">
+        <span class="input-group-text">n</span>
+        <input type="text" name="n" value="{{previousn}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="show" value="show" class="btn btn-success btn-lg">Show all points</button>
+        <button type="submit" name="add" value="add" class="btn btn-success btn-lg">P + Q</button>
+        <button type="submit" name="mul" value="mul" class="btn btn-success btn-lg">n * P</button>
+    </div>
+</form>
+
+<div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if result %}
+    <h5>{{result}}</h5>
+    {% elif resultpoints %}
+    <h6>
+        {% for i in resultpoints %}
+            {{i}},
+        {% endfor %}
+    </h6>
+    {% endif %}
+</div>
+
+{% endblock %}

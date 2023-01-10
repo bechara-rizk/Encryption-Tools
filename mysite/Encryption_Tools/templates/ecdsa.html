@@ -12,34 +12,46 @@
 
 <div class="container text-center pt-2">
     <h3>Sign and verify using the Elliptic Curve Digital Signature Algorithm</h3>
-    <p>All inputs must be numbers, q must be prime, a must be a primitive root of q</p>
-    <p>xA and k are optional, k and q-1 must be relatively prime</p>
+    <p>All inputs must be numbers, G(Gx,Gy) must be a point on the curve y<sup>2</sup>=x<sup>3</sup>+a*x+b mod p</p>
+    <p>d and k are optional but k must be relatively prime to the order of the point on the curve</p>
 </div>
 
 <form method="post">
     {% csrf_token %}
 
     <div class="container input-group p-2" style="width:95%; max-width: 700px;">
-        <span class="input-group-text">q</span>
-        <input type="text" name="q" value="{{previousq}}" class="form-control">
         <span class="input-group-text">a</span>
         <input type="text" name="a" value="{{previousa}}" class="form-control">
+        <span class="input-group-text">b</span>
+        <input type="text" name="b" value="{{previousb}}" class="form-control">
+        <span class="input-group-text">p</span>
+        <input type="text" name="p" value="{{previousp}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Gx</span>
+        <input type="text" name="gx" value="{{previousgx}}" class="form-control">
+        <span class="input-group-text">Gy</span>
+        <input type="text" name="gy" value="{{previousgy}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">e</span>
+        <input type="text" name="e" value="{{previouse}}" class="form-control">
+        <span class="input-group-text">d</span>
+        <input type="text" name="d" value="{{previousd}}" class="form-control">
         <span class="input-group-text">k</span>
         <input type="text" name="k" value="{{previousk}}" class="form-control">
     </div>
     <div class="container input-group p-2" style="width:95%; max-width: 700px;">
-        <span class="input-group-text">m</span>
-        <input type="text" name="m" value="{{previousm}}" class="form-control">
-        <span class="input-group-text">xA</span>
-        <input type="text" name="xa" value="{{previousxa}}" class="form-control">
-    </div>
-    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
-        <span class="input-group-text">yA</span>
-        <input type="text" name="ya" value="{{previousya}}" class="form-control">
-        <span class="input-group-text">S1</span>
-        <input type="text" name="s1" value="{{previouss1}}" class="form-control">
-        <span class="input-group-text">S2</span>
-        <input type="text" name="s2" value="{{previouss2}}" class="form-control">
+        <span class="input-group-text">Qx</span>
+        <input type="text" name="qx" value="{{previousqx}}" class="form-control">
+        <span class="input-group-text">Qy</span>
+        <input type="text" name="qy" value="{{previousqy}}" class="form-control">
+        <span class="input-group-text">r</span>
+        <input type="text" name="r" value="{{previousr}}" class="form-control">
+        <span class="input-group-text">s</span>
+        <input type="text" name="s" value="{{previouss}}" class="form-control">
+        <span class="input-group-text">order</span>
+        <input type="text" name="order" value="{{previousorder}}" class="form-control">
     </div>
     <div class="p-2 text-center">
         <button type="submit" name="setup" value="setup" class="btn btn-success btn-lg">Sign</button>

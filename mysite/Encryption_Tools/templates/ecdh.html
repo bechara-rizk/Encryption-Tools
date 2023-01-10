@@ -1,0 +1,66 @@
+{% extends 'default.html' %}
+
+{% block title %}Diffie-Hellman on Elliptic Curve{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Diffie-Hellman Key Exchange using Elliptic Curve</h3>
+    <p>All inputs must be numbers, G must be a point on the curve</p>
+    <p>nA and nB are optional but must be less than the order of the point G</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">a</span>
+        <input type="text" name="a" value="{{previousa}}" class="form-control">
+        <span class="input-group-text">b</span>
+        <input type="text" name="b" value="{{previousb}}" class="form-control">
+        <span class="input-group-text">p</span>
+        <input type="text" name="p" value="{{previousp}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">Gx</span>
+        <input type="text" name="gx" value="{{previousgx}}" class="form-control">
+        <span class="input-group-text">Gy</span>
+        <input type="text" name="gy" value="{{previousgy}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">nA</span>
+        <input type="text" name="na" value="{{previousna}}" class="form-control">
+        <span class="input-group-text">nB</span>
+        <input type="text" name="nb" value="{{previousnb}}" class="form-control">
+    </div>
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">PA</span>
+        <input type="text" name="pa" value="{{previouspa}}" class="form-control">
+        <span class="input-group-text">PB</span>
+        <input type="text" name="pb" value="{{previouspb}}" class="form-control">
+        <span class="input-group-text">K</span>
+        <input type="text" name="k" value="{{previousk}}" class="form-control">
+    </div>
+    <div class="p-2 text-center">
+        <button type="submit" name="setup" value="setup" class="btn btn-success btn-lg">Compute Keys</button>
+    </div>
+</form>
+
+<div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if result %}
+    <h5>{{result}}</h5>
+    {% elif resultpoints %}
+    <h6>
+        {% for i in resultpoints %}
+            {{i}},
+        {% endfor %}
+    </h6>
+    {% endif %}
+</div>
+
+{% endblock %}

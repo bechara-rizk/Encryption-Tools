@@ -73,7 +73,7 @@ def totient(x):
 from random import randint
 from .exponentiation import exponentiation
 
-def milller_rabbin(n, rounds=1, a=None):
+def miller_rabbin(n, rounds=1, a=None):
     if rounds<1 or n<2 or (a is not None and (a<2 or a>=n)):
         return False
     k=0
@@ -190,8 +190,8 @@ if __name__ == "__main__2":
     print(rel_prime(7,10))
     print(test_prime(99711907))
     print(totient(13))
-    print(milller_rabbin(99711907))
-    print(milller_rabbin(221))
+    print(miller_rabbin(99711907))
+    print(miller_rabbin(221))
     # print(primitive_roots(1021))
     # print(primitive_root_test(1021,538))
     print(primitive_roots(9))

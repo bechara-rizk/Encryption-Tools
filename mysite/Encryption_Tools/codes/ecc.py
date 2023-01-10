@@ -80,7 +80,7 @@ def ECC_encrypt(curve, G, Pm, P, k=None):
     if G not in curve.all_points():
         return 'G is not a point on the curve'
     if k is None:
-        k=int(random()*randint(100,10000))
+        k=int(random()*randint(10,10000))
     Cm=(curve.mul(k,G),curve.add(Pm,curve.mul(k,P)))
     return Cm
 
