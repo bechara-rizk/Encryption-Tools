@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('Encryption-Tools/', include('Encryption_Tools.urls')),
+    path('', include('Encryption_Tools.urls')),
 ]
