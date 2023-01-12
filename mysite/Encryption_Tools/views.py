@@ -11,6 +11,23 @@ from .codes import primes
 def index(request):
     return render(request, 'index.html')
 
+def enc_text(request):
+    if request.method=='POST':
+        text=request.POST.get('text')
+        key=request.POST.get('key')
+        hex_key=texthex.text_to_hex(key)
+        hex_key=hex_key.zfill(64)
+        if len(hex_key)>64:
+            hex_key=hex_key[:64]
+        if request.POST.get('enc'):
+            hex_text=texthex.text_to_hex(text)
+            result=block_operations.operation('aes', 'ecb', hex_key, hex_text, 'encrypt')
+        elif request.POST.get('dec'):
+            result=block_operations.operation('aes', 'ecb', hex_key, text, 'decrypt')
+            result=texthex.hex_to_text(result)
+        return render(request, 'enc_text.html', {'previouskey':key,'previoustext':text,'result':result})
+    return render(request, 'enc_text.html', {'test':'te       st'})
+
 def dl(request):
     if request.method=='POST':
         if request.POST.get('compute'):
