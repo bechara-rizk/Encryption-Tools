@@ -143,13 +143,13 @@ if __name__=='__main__':
     data='6bc1bee22e409f172a372832949392020830947823984723'
     iv,result=operation('aes', 'cbc', key, data, 'encrypt')
     # print(result,iv)
-    res2=operation('aes', 'cbc', key, result, 'decrypt', iv)
+    iv,res2=operation('aes', 'cbc', key, result, 'decrypt', iv)
     print('AES, CBC',res2==data)
 
     key = '0f1571c947d9e859'
     data='6bc1bee22e409f172a372832949392020830947823984723'
     iv,result=operation('des', 'cbc', key, data, 'encrypt')
-    res2=operation('des', 'cbc', key, result, 'decrypt',iv)
+    iv,res2=operation('des', 'cbc', key, result, 'decrypt',iv)
     print('DES, CBC',res2==data)
 
     key = '0f1571c947d9e8590cb7add6af7f6798'
@@ -157,11 +157,11 @@ if __name__=='__main__':
     data='6bc1bee22e409f172a372832949392020830947823984723'
     nonce,result=operation('aes', 'ofb', key, data, 'encrypt')
     # print(result,iv)
-    res2=operation('aes', 'ofb', key, result, 'decrypt', nonce)
+    nonce,res2=operation('aes', 'ofb', key, result, 'decrypt', nonce)
     print('AES, OFB',res2==data)
 
     key = '0f1571c947d9e859'
     data='6bc1bee22e409f172a372832949392020830947823984723'
     nonce,result=operation('des', 'ofb', key, data, 'encrypt')
-    res2=operation('des', 'ofb', key, result, 'decrypt',nonce)
+    nonce,res2=operation('des', 'ofb', key, result, 'decrypt',nonce)
     print('DES, OFB',res2==data)

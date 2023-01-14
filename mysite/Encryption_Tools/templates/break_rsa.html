@@ -1,0 +1,54 @@
+{% extends 'default.html' %}
+
+{% block title %}Break RSA{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center pt-2">
+    <h3>Uses a method to guess p and q</h3>
+    <p>All inputs must be numbers</p>
+    <p>e is optional if you want to get d</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">n</span>
+        <input type="text" name="n" value="{{previousn}}" class="form-control">
+        <span class="input-group-text">e</span>
+        <input type="text" name="e" value="{{previouse}}" class="form-control">
+        <!-- <span class="input-group-text">d</span>
+        <input type="text" name="d" value="{{previousd}}" class="form-control"> -->
+    </div>
+    <!-- <div class="container input-group p-2" style="width:95%; max-width: 700px;">
+        <span class="input-group-text">p</span>
+        <input type="text" name="p" value="{{previousp}}" class="form-control">
+        <span class="input-group-text">q</span>
+        <input type="text" name="q" value="{{previousq}}" class="form-control">
+        <span class="input-group-text">phi</span>
+        <input type="text" name="phi" value="{{previousphi}}" class="form-control">
+    </div> -->
+    <div class="p-2 text-center">
+        <button type="submit" name="break" value="break" class="btn btn-success btn-lg">Break</button>
+    </div>
+</form>
+
+<div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
+    {% if p %}
+        <pre class="h5">p: {{p}}</pre>
+        <pre class="h5">q: {{q}}</pre>
+        <pre class="h5">phi: {{phi}}</pre>
+        {% if d %}
+            <pre class="h5">d: {{d}}</pre>
+        {% endif %}
+    {% endif %}
+</div>
+
+{% endblock %}

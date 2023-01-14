@@ -34,5 +34,6 @@ urlpatterns = [
     path('crt', views.crt),
     path('pr', views.pr),
     path('dl', views.dl),
-    path('enc_text', views.enc_text)
+    path('enc_text', views.enc_text),
+    path('break_rsa', views.break_rsa_func),
 ]

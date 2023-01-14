@@ -1,8 +1,14 @@
-from .primes import test_prime, primitive_root_test, rel_prime
 from random import randint
-from .exponentiation import exponentiation
-from .extendedEuclid import extendedEuclid
-from .ecc import ECCPrime
+try:
+    from .primes import test_prime, primitive_root_test, rel_prime
+    from .exponentiation import exponentiation
+    from .extendedEuclid import extendedEuclid
+    from .ecc import ECCPrime
+except:
+    from primes import test_prime, primitive_root_test, rel_prime
+    from exponentiation import exponentiation
+    from extendedEuclid import extendedEuclid
+    from ecc import ECCPrime
 
 def elgamal_ds_setup(q,a,m,xA=None,k=None):
     if not test_prime(q):
@@ -62,7 +68,7 @@ def ECDSA_verify(curve,G,Q,e,r,s,n):
 
 
 if __name__=='__main__':
-    yA,S1,S2=elgamal_ds_setup(19,10,14)
+    xA,k,yA,S1,S2=elgamal_ds_setup(19,10,14)
     print(yA,S1,S2)
     print(elgamal_ds_verify(19,10,14,yA,(S1,S2)))
     curve=ECCPrime(2,1,113)

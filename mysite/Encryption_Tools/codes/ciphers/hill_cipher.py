@@ -1,4 +1,7 @@
-from . import extendedEuclid
+try:
+    from . import extendedEuclid
+except:
+    import extendedEuclid
 from numpy import linalg, matrix
 
 def hill_cipher_2_enc(text, key):

@@ -5,11 +5,27 @@ from .codes import aes, des, block_operations, digitial_signature
 from .codes.ecc import ECCPrime, ECC_DH, ECC_decrypt, ECC_encrypt
 from .codes import asymetric_encryption
 from .codes import primes
+from .codes import break_rsa
 # from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
+
+def break_rsa_func(request):
+    if request.method=="POST":
+        if request.POST.get('break'):
+            n=int(request.POST.get('n'))
+            e=request.POST.get('e')
+            if e=='':
+                ei=None
+                p,q,phi=break_rsa.break_rsa(n)
+                return render(request, 'break_rsa.html', {'previousn':n,'previouse':e,'p':p,'q':q,'phi':phi})
+            else:
+                ei=int(e)
+                p,q,phi,d=break_rsa.break_rsa(n,ei)
+                return render(request, 'break_rsa.html', {'previousn':n,'previouse':e,'p':p,'q':q,'phi':phi,'d':d})
+    return render(request, 'break_rsa.html')
 
 def enc_text(request):
     if request.method=='POST':

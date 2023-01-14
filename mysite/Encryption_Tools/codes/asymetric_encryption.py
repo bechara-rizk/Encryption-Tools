@@ -1,7 +1,12 @@
 from random import randint
-from .primes import rel_prime, test_prime, primitive_root_test
-from .extendedEuclid import extendedEuclid
-from .exponentiation import exponentiation
+try:
+    from .primes import rel_prime, test_prime, primitive_root_test
+    from .extendedEuclid import extendedEuclid
+    from .exponentiation import exponentiation
+except:
+    from primes import rel_prime, test_prime, primitive_root_test
+    from extendedEuclid import extendedEuclid
+    from exponentiation import exponentiation
 
 def RSA_setup(p, q, e=None):
     n=p*q
@@ -78,7 +83,7 @@ def el_gamal_decrypt(c1, c2, q, xa):
 if __name__=='__main__':
     p=11
     q=17
-    n,e,d=RSA_setup(p,q)
+    n,phi,e,d=RSA_setup(p,q)
     print(n,e,d)
     M=88
     C=RSA_encrypt(M,e,n)

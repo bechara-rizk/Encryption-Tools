@@ -1,5 +1,8 @@
-from .extendedEuclid import extendedEuclid
 from random import randint, random
+try:
+    from .extendedEuclid import extendedEuclid
+except:
+    from extendedEuclid import extendedEuclid
 
 class ECCPrime:
     def __init__(self, a, b, p):
