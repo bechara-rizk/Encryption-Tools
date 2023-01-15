@@ -42,7 +42,7 @@ def enc_text(request):
             result=block_operations.operation('aes', 'ecb', hex_key, text, 'decrypt')
             result=texthex.hex_to_text(result)
         return render(request, 'enc_text.html', {'previouskey':key,'previoustext':text,'result':result})
-    return render(request, 'enc_text.html', {'test':'te       st'})
+    return render(request, 'enc_text.html')
 
 def dl(request):
     if request.method=='POST':
