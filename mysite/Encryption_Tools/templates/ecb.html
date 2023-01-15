@@ -36,7 +36,8 @@
 
 <div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
     {% if text %}
-    <h5>Result: {{text}}</h5>
+    <pre class="h5">Result: <span id="copy_text">{{text}}</span></pre>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="copyEvent('copy_text')">Copy</button>
     {% endif %}
 </div>
 

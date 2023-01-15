@@ -26,7 +26,8 @@
 </form>
 <div class="container text-center p-2">
     {% if result %}
-    <h4>Result: {{result}}</h4>
+    <pre class="h4">Result: <span id="copy_text">{{result}}</span></pre>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="copyEvent('copy_text')">Copy</button>
     {% endif %}
 </div>
 

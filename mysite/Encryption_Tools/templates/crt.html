@@ -12,7 +12,7 @@
 
 <div class="container text-center pt-2">
     <h3>Use the Chinese Remainder Theorem to compute fast mod</h3>
-    <p>m must be integers separated by commas and A can be either an integer or integers searated by commas (same number of elements as m)</p>
+    <p>m must be integers separated by commas and A can be either an integer or integers separated by commas (same number of elements as m)</p>
 
 </div>
 
@@ -33,7 +33,8 @@
 
 <div class="container text-center p-2" style="width: 90%; overflow-wrap: anywhere;">
     {% if result %}
-    <h5>Result: {{result}}</h5>
+    <pre class="h5">Result: <span id="copy_text">{{result}}</span></pre>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="copyEvent('copy_text')">Copy</button>
     {% endif %}
 </div>
 
