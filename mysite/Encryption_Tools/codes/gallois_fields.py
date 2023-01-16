@@ -119,6 +119,8 @@ class GF:
         return result, remainder
 
     def inv(self, a):
+        if self.n is None:
+            return 'n is not defined'
         if self.m is None:
             return 'm(x) is not defined'
         A2='0'

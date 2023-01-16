@@ -41,7 +41,8 @@
     <div class="row">
         {% if not key %}
         <div class="col">
-            <p>{{text}}</p>
+            <pre class="h4" id="copy_text">{{text}}</pre>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="copyEvent('copy_text')">Copy</button>
         </div>
         {% else %}
         <div class="col" style="overflow-y: scroll; height:300px;">
