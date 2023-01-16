@@ -728,6 +728,8 @@ def cipher_rowtrans(request):
     if request.method=='POST':
         text=request.POST.get('text')
         key=request.POST.get('key')
+        if len(key.strip())==0 or len(text.strip())==0:
+            return render(request, 'cipher_rowtrans.html', {'result':'key and text must not be empty', 'previoustext':text, 'previouskey':key})
         if request.POST.get('enc'):
             result=row_transposition_cipher.row_transposition_cipher_enc(text, key)
         elif request.POST.get('dec'):
