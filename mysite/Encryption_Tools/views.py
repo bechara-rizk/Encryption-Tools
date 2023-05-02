@@ -6,11 +6,22 @@ from .codes.ecc import ECCPrime, ECC_DH, ECC_decrypt, ECC_encrypt
 from .codes import asymetric_encryption
 from .codes import primes
 from .codes import break_rsa
+from base64 import b64encode, b64decode
 # from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
+
+def base64_func(request):
+    if request.method=='POST':
+        text=request.POST.get('text')
+        if request.POST.get('encode'):
+            result=b64encode(text.encode('ascii')).decode('ascii')
+        elif request.POST.get('decode'):
+            result=b64decode(text.encode('ascii')).decode('ascii')
+        return render(request, 'base64.html', {'previous':text,'result':result})
+    return render(request, 'base64.html')
 
 def break_rsa_func(request):
     if request.method=="POST":

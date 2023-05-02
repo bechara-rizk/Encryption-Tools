@@ -36,4 +36,5 @@ urlpatterns = [
     path('dl', views.dl),
     path('enc_text', views.enc_text),
     path('break_rsa', views.break_rsa_func),
+    path('base64', views.base64_func),
 ]
